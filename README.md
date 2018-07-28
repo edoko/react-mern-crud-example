@@ -24,6 +24,7 @@
 - [ ] Login & Register
 - [ ] Remove Post feature on Post List page
 - [ ] Category
+- [ ] Search Posts
 
 ## How to do it ?
 
