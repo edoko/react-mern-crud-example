@@ -2,12 +2,48 @@ import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 import * as actions from "../../actions";
+import Pagination from "rc-pagination";
+import "rc-pagination/assets/index.css";
 
 class Main extends Component {
-  componentDidMount() {
-    this.props.getPostFetch();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentpage: 1,
+      totalpage: 1
+    };
   }
+
+  componentDidMount() {
+    // 마운트하고 페이지 전체 리스트 불러오는 부분 실행
+    this.loadTotalPage();
+
+    // 몇번째 페이지인지를 getPostFetch props에 넣어서 실행
+    this.props.getPostFetch(this.state.currentpage);
+  }
+
+  // 페이지 전체 리스트 개수를 불러오는 부분
+  loadTotalPage = () => {
+    axios
+      .get("http://localhost:3001/api/post/pages")
+      .then(res => {
+        console.log(res.data);
+        this.setState({ totalpage: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+
+  // 페이지 이동할 때 실행됨
+  // currentpage state애 현재 변경할 page를 넣어주고, getPostFetch를 실행해서 해당 페이지의 리스트를 불러옴
+  onChange = page => {
+    this.setState({
+      currentpage: page
+    });
+    this.props.getPostFetch(page);
+  };
 
   render() {
     if (!this.props.posts) {
@@ -38,6 +74,14 @@ class Main extends Component {
               </div>
             ))}
           </Col>
+          <Col xs="6">
+            <Pagination
+              onChange={this.onChange}
+              current={this.state.currentpage}
+              total={this.state.totalpage}
+              pageSize={5}
+            />
+          </Col>
         </Row>
       </Container>
     );
@@ -54,8 +98,8 @@ const mapStateToProps = state => {
 // redux dispatch를 props로 가져오기
 const mapDispatchToProps = dispatch => {
   return {
-    getPostFetch: () => {
-      dispatch(actions.getPostFetch());
+    getPostFetch: current => {
+      dispatch(actions.getPostFetch(current));
     }
   };
 };

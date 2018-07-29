@@ -16,10 +16,10 @@ export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const GET_POST_DETAIL_FETCH = "GET_POST_DETAIL_FETCH";
 export const GET_POST_DETAIL_SUCCESS = "GET_POST_DETAIL_SUCCESS";
 
-export function getPostFetch() {
+export function getPostFetch(current) {
   return function(dispatch) {
     axios
-      .get(`${API_URL}/post`)
+      .get(`${API_URL}/post/pages/` + current)
       .then(res => {
         // post를 정상적으로 불러오면 Success 함수를 실행
         dispatch(getPostSuccess(res.data));

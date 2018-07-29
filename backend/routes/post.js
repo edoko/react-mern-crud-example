@@ -13,6 +13,29 @@ router.get("/", function(req, res, next) {
     });
 });
 
+// 게시글 페이징 가져오기 (한페이지에 5개씩)
+router.get("/pages/:id", function(req, res, next) {
+  Post.find()
+    // 내림차순 정렬 (최신글이 위로 올라오게끔)
+    .sort({ write_date: -1 })
+    .skip((req.params.id - 1) * 5)
+    .limit(5)
+    .exec(function(err, list) {
+      if (err) return next(err);
+      res.json(list);
+    });
+});
+
+// 페이지 전체 개수 가져오기
+router.get("/pages", function(req, res, next) {
+  Post.find()
+    .count()
+    .exec(function(err, list) {
+      if (err) return next(err);
+      res.json(list);
+    });
+});
+
 // 개별 게시글 가져오기
 router.get("/:id", function(req, res, next) {
   Post.findById(req.params.id, function(err, post) {
