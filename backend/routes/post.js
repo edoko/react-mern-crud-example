@@ -6,7 +6,7 @@ var Post = require("../models/Post.js");
 router.get("/", function(req, res, next) {
   Post.find()
     // 내림차순 정렬 (최신글이 위로 올라오게끔)
-    .sort({ title: -1 })
+    .sort({ write_date: -1 })
     .exec(function(err, list) {
       if (err) return next(err);
       res.json(list);
