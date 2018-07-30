@@ -24,7 +24,7 @@
 ## TODO
 
 - [x] Login & Register with JWT
-  - Social Login (Google)
+  - [ ] Social Login (Google)
 - [ ] Remove Post feature on Post List page
 - [ ] Category
 - [ ] Search Posts
