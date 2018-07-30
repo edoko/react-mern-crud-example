@@ -1,6 +1,20 @@
 var express = require("express");
-var router = express.Router();
 var Post = require("../models/Post.js");
+var passport = require("passport");
+require("../config/passport.js")(passport);
+
+var router = express.Router();
+
+// 토큰 가져오는 부분
+function getToken(headers) {
+  var splited = headers.authorization.split(" ");
+  if (splited.length == 2) {
+    // JWT 글자 다음을 리턴, splited[0] == JWT
+    return splited[1];
+  } else {
+    return null;
+  }
+}
 
 // 게시글 리스트 가져오기
 router.get("/", function(req, res, next) {
@@ -29,7 +43,7 @@ router.get("/pages/:id", function(req, res, next) {
 // 페이지 전체 개수 가져오기
 router.get("/pages", function(req, res, next) {
   Post.find()
-    .count()
+    .countDocuments()
     .exec(function(err, list) {
       if (err) return next(err);
       res.json(list);
@@ -45,11 +59,21 @@ router.get("/:id", function(req, res, next) {
 });
 
 // 게시글 저장
-router.post("/", function(req, res, next) {
-  Post.create(req.body, function(err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+router.post("/", passport.authenticate("jwt", { session: false }), function(
+  req,
+  res,
+  next
+) {
+  //console.log(req.headers);
+  var token = getToken(req.headers);
+  if (token) {
+    Post.create(req.body, function(err, post) {
+      if (err) return next(err);
+      res.json(post);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: "Unauthorized." });
+  }
 });
 
 // 게시글 수정

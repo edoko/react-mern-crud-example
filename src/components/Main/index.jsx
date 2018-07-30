@@ -57,9 +57,17 @@ class Main extends Component {
             <h1>POST LIST</h1>
           </Col>
           <Col xs="12" style={{ marginBottom: 20 }}>
-            <Link to="/create">
-              <Button color="primary">Create</Button>
-            </Link>
+            {localStorage.getItem("jwtToken") ? (
+              <Link to="/create">
+                <Button color="primary">Create</Button>
+              </Link>
+            ) : (
+              <Link to="/create">
+                <Button color="primary" disabled>
+                  Create
+                </Button>
+              </Link>
+            )}
           </Col>
           <Col xs="4">
             {this.props.posts.map((post, index) => (

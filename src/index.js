@@ -9,6 +9,8 @@ import Main from "./components/Main/index.jsx";
 import Edit from "./components/Edit/index.jsx";
 import Create from "./components/Create/index.jsx";
 import Show from "./components/Show/index.jsx";
+import Login from "./components/Login/index.jsx";
+import Register from "./components/Register/index.jsx";
 import stores from "./reducers";
 import history from "./history";
 import "./index.css";
@@ -31,6 +33,8 @@ ReactDOM.render(
         <Route path="/edit/:id" component={Edit} />
         <Route path="/create" component={Create} />
         <Route path="/post/:id" component={Show} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
       </div>
     </Router>
   </Provider>,

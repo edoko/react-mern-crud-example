@@ -48,6 +48,22 @@ class Edit extends Component {
       return <div>No post!</div>;
     }
 
+    if (!localStorage.getItem("jwtToken")) {
+      return (
+        <div style={{ textAlign: "center" }}>
+          <h3>Not login!</h3>
+        </div>
+      );
+    }
+
+    if (this.props.post.writer !== localStorage.getItem("myUserName")) {
+      return (
+        <div>
+          <p>You are an unauthorized user.</p>
+        </div>
+      );
+    }
+
     return (
       <Container>
         <Row>
@@ -103,7 +119,8 @@ class Edit extends Component {
 // redux store의 state를 props로 가져오기
 const mapStateToProps = state => {
   return {
-    post: state.fetch.post
+    post: state.fetch.post,
+    username: state.user.username
   };
 };
 

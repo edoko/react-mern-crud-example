@@ -1,4 +1,4 @@
-# React.js MERN CRUD Example
+# MERN CRUD Example
 
 ## Stack
 
@@ -17,12 +17,14 @@
 - Remove Post
 - Edit Post
 - Pagination
+- Login & Register with JWT
 - Backend: Node.js(Express) + MongoDB
 - Design with Reactstrap(bootstrap v4)
 
 ## TODO
 
-- [ ] Login & Register
+- [x] Login & Register with JWT
+  - Social Login (Google)
 - [ ] Remove Post feature on Post List page
 - [ ] Category
 - [ ] Search Posts

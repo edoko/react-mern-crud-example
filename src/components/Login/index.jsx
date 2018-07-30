@@ -12,77 +12,69 @@ import {
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 
-class Create extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      title: "",
-      writer: this.props.username,
-      content: ""
+      username: "",
+      password: "",
+      alert: ""
     };
   }
 
-  // 입력하는 문구들이 자동으로 setState 되게끔
   onChange = event => {
     const state = this.state;
+
     state[event.target.name] = event.target.value;
     this.setState(state);
   };
 
-  // Send 버튼을 누르면 props 실행
-  onSubmit = event => {
+  onLogin = event => {
     event.preventDefault();
-    this.props.createPost(
-      this.state.title,
-      this.state.writer,
-      this.state.content
-    );
+
+    const { username, password } = this.state;
+
+    this.props.login(username, password);
   };
 
   render() {
-    if (!localStorage.getItem("jwtToken")) {
-      return (
-        <div style={{ textAlign: "center" }}>
-          <h3>
-            Not login!<br />Login, Please!
-          </h3>
-        </div>
-      );
-    }
-
     return (
       <Container>
         <Row>
-          <Col xs={12} style={{ textAlign: "center" }}>
-            <h1>CREATE POST</h1>
+          <Col xs={12}>
+            <h1>LOGIN</h1>
           </Col>
           <Col xs={12}>
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.onLogin}>
               <FormGroup row>
-                <Label sm={2}>Title</Label>
+                <Label sm={2}>Username</Label>
                 <Col sm={10}>
                   <Input
                     type="text"
-                    name="title"
-                    placeholder="Add title"
+                    name="username"
+                    placeholder="Username"
                     onChange={this.onChange}
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Label sm={2}>Content</Label>
+                <Label sm={2}>Password</Label>
                 <Col sm={10}>
                   <Input
-                    type="textarea"
-                    name="content"
-                    placeholder="Add content"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
                     onChange={this.onChange}
                   />
                 </Col>
               </FormGroup>
+              <div>
+                {this.props.alert}
+                <br />
+              </div>
               <Button type="submit" color="primary">
-                Send
+                Login
               </Button>
             </Form>
           </Col>
@@ -94,15 +86,14 @@ class Create extends Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.user.username
+    alert: state.user.alert
   };
 };
 
-// redux dispatch를 props로 가져오기
 const mapDispatchToProps = dispatch => {
   return {
-    createPost: (title, writer, content) => {
-      dispatch(actions.createPost(title, writer, content));
+    login: (username, password) => {
+      dispatch(actions.login(username, password));
     }
   };
 };
@@ -110,4 +101,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Create);
+)(Login);

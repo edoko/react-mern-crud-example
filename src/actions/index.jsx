@@ -5,6 +5,9 @@ import history from "../history";
 const API_URL = "http://localhost:3001/api";
 
 // 액션 타입 지정
+export const LOGIN = "LOGIN";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const GET_POST_FETCH = "GET_POST_FETCH";
 export const GET_POST_SUCCESS = "GET_POST_SUCCESS";
 export const CREATE_POST = "CREATE_POST";
@@ -15,6 +18,40 @@ export const DELETE_POST = "DELETE_POST";
 export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const GET_POST_DETAIL_FETCH = "GET_POST_DETAIL_FETCH";
 export const GET_POST_DETAIL_SUCCESS = "GET_POST_DETAIL_SUCCESS";
+
+export function login(username, password) {
+  return function(dispatch) {
+    axios
+      .post(`${API_URL}/auth/login`, { username, password })
+      .then(res => {
+        dispatch(loginSuccess(res.data, username));
+        const token = res.data.token;
+        //console.log(token);
+        axios.defaults.headers.common["Authorization"] = token;
+        history.push("/");
+      })
+      .catch(err => {
+        if (err.response.status === 401) {
+          dispatch(loginFailure(err));
+        }
+      });
+  };
+}
+
+export function loginSuccess(data, username) {
+  return {
+    type: "LOGIN_SUCCESS",
+    data,
+    username
+  };
+}
+
+export function loginFailure(data) {
+  return {
+    type: "LOGIN_FAILURE",
+    data
+  };
+}
 
 export function getPostFetch(current) {
   return function(dispatch) {
