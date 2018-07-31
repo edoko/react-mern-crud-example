@@ -7,7 +7,6 @@ require("./config/passport.js")(passport);
 
 var post = require("./routes/post");
 var auth = require("./routes/auth");
-var user = require("./routes/user");
 var app = express();
 
 var mongoose = require("mongoose");
