@@ -20,7 +20,7 @@ class Create extends Component {
 
     this.state = {
       title: "",
-      writer: this.props.username,
+      writer: localStorage.getItem("myUserName"),
       content: ""
     };
   }
