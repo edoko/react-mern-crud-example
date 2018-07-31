@@ -74,8 +74,6 @@ class Main extends Component {
               <div key={index} style={{ border: "1px solid black" }}>
                 <Link to={`/post/${post._id}`}>{post.title}</Link>
                 <br />
-                <span>내용: {post.content}</span>
-                <br />
                 <span>글쓴이: {post.writer}</span>
                 <br />
                 <span>글쓴날짜: {post.write_date}</span>

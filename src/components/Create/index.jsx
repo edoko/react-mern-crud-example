@@ -10,7 +10,9 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
+import ReactQuill from "react-quill";
 import * as actions from "../../actions";
+import "react-quill/dist/quill.snow.css";
 
 class Create extends Component {
   constructor(props) {
@@ -38,6 +40,10 @@ class Create extends Component {
       this.state.writer,
       this.state.content
     );
+  };
+
+  handleChange = value => {
+    this.setState({ content: value });
   };
 
   render() {
@@ -73,11 +79,9 @@ class Create extends Component {
               <FormGroup row>
                 <Label sm={2}>Content</Label>
                 <Col sm={10}>
-                  <Input
-                    type="textarea"
-                    name="content"
-                    placeholder="Add content"
-                    onChange={this.onChange}
+                  <ReactQuill
+                    value={this.state.content}
+                    onChange={this.handleChange}
                   />
                 </Col>
               </FormGroup>

@@ -34,7 +34,7 @@ class Show extends Component {
             <h5>글쓴날짜: {this.props.post.write_date}</h5>
           </Col>
           <Col xs="12">
-            <p>{this.props.post.content}</p>
+            <p dangerouslySetInnerHTML={{ __html: this.props.post.content }} />
           </Col>
           <Link to={`/edit/${this.props.match.params.id}`}>
             <Button color="primary">EDIT</Button>
