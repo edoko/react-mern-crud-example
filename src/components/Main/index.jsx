@@ -69,7 +69,7 @@ class Main extends Component {
               </Link>
             )}
           </Col>
-          <Col xs="4">
+          <Col xs="6">
             {this.props.posts.map((post, index) => (
               <div key={index} style={{ border: "1px solid black" }}>
                 <Link to={`/post/${post._id}`}>{post.title}</Link>
@@ -80,7 +80,7 @@ class Main extends Component {
               </div>
             ))}
           </Col>
-          <Col xs="6">
+          <Col xs="12" style={{ textAlign: "center" }}>
             <Pagination
               onChange={this.onChange}
               current={this.state.currentpage}
