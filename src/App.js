@@ -2,10 +2,16 @@ import React, { Component } from "react";
 import "./App.css";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import history from "./history";
+import * as actions from "./actions";
 
 // 헤더 + 감싸는 컴포넌트
 class App extends Component {
+  componentDidMount() {
+    this.props.preserveToken();
+  }
+
   logout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("myUserName");
@@ -43,4 +49,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    preserveToken: () => {
+      dispatch(actions.preserveToken());
+    }
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

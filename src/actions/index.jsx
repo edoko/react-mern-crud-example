@@ -5,6 +5,7 @@ import history from "../history";
 const API_URL = "http://localhost:3001/api";
 
 // 액션 타입 지정
+export const PRESERVE_TOKEN = "PRESERVE_TOKEN";
 export const LOGIN = "LOGIN";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
@@ -19,15 +20,23 @@ export const DELETE_POST_SUCCESS = "DELETE_POST_SUCCESS";
 export const GET_POST_DETAIL_FETCH = "GET_POST_DETAIL_FETCH";
 export const GET_POST_DETAIL_SUCCESS = "GET_POST_DETAIL_SUCCESS";
 
+export function preserveToken(token) {
+  return {
+    type: "PRESERVE_TOKEN",
+    token
+  };
+}
+
 export function login(username, password) {
   return function(dispatch) {
     axios
       .post(`${API_URL}/auth/login`, { username, password })
       .then(res => {
         dispatch(loginSuccess(res.data, username));
-        const token = res.data.token;
-        //console.log(token);
-        axios.defaults.headers.common["Authorization"] = token;
+        // const token = res.data.token;
+        // //console.log(token);
+        // axios.defaults.headers.common["Authorization"] = token;
+        dispatch(preserveToken(res.data.token));
         history.push("/");
       })
       .catch(err => {
