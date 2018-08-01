@@ -10,6 +10,7 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
+import ReactQuill from "react-quill";
 import * as actions from "../../actions";
 
 class Edit extends Component {
@@ -41,6 +42,10 @@ class Edit extends Component {
       this.state.content,
       this.props.match.params.id
     );
+  };
+
+  handleChange = value => {
+    this.setState({ content: value });
   };
 
   render() {
@@ -97,11 +102,9 @@ class Edit extends Component {
               <FormGroup row>
                 <Label sm={2}>Content</Label>
                 <Col sm={10}>
-                  <Input
-                    type="textarea"
-                    name="content"
-                    defaultValue={this.props.post.content}
-                    onChange={this.onChange}
+                  <ReactQuill
+                    value={this.state.content}
+                    onChange={this.handleChange}
                   />
                 </Col>
               </FormGroup>
